@@ -20,4 +20,4 @@ st.subheader("Task 1: Average Rating vs Total Reviews")
 fig = task1_grouped_bar_chart()
 
 if fig is None:
-    st.warning("This chart is available only between **3 PM and 5 PM IST")
+    st.warning("This chart is available only between 3 PM and 5 PM IST")
