@@ -17,10 +17,10 @@ st.divider()
 
 st.subheader("Task 1: Average Rating vs Total Reviews")
 
-# 🔧 TEMPORARY TEST FLAG
-TEST_MODE = True
+TEST_MODE = True   # set False before final submission
 
-fig = task1_grouped_bar_chart() if not TEST_MODE else task1_grouped_bar_chart()
+fig = task1_grouped_bar_chart(test_mode=TEST_MODE)
 
 if fig is None and not TEST_MODE:
     st.warning("This chart is available only between 3 PM and 5 PM IST.")
+
