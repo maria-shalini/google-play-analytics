@@ -12,7 +12,6 @@ def is_time_allowed(start_hour, end_hour):
 
 
 def task1_grouped_bar_chart(test_mode=False):
-
     # ⏰ Time restriction
     if not test_mode and not is_time_allowed(15, 17):
         return None
@@ -43,7 +42,7 @@ def task1_grouped_bar_chart(test_mode=False):
         (df["Rating"] >= min_rating) &
         (df["Size_MB"] <= max_size) &
         (df["Last Updated"].dt.month == 1)
-    ]
+        ]
 
     if filtered_df.empty:
         st.info("No data available for selected filters.")
@@ -76,15 +75,42 @@ def task1_grouped_bar_chart(test_mode=False):
     )
 
     # 📊 Plot
-    fig, ax = plt.subplots(figsize=(12, 6))
-    summary_df.plot(kind="bar", ax=ax)
+    fig, ax1 = plt.subplots(figsize=(12, 6))
 
-    ax.set_title("Average Rating vs Total Reviews (Top Categories)")
-    ax.set_xlabel("App Category")
-    ax.set_ylabel("Value")
-    ax.legend(["Average Rating", "Total Reviews"])
-    plt.xticks(rotation=45, ha="right")
+    # Average Rating (Left axis)
+    ax1.bar(
+        summary_df.index,
+        summary_df["Average_Rating"],
+        color="tab:blue",
+        width=0.4,
+        label="Average Rating"
+    )
+    ax1.set_ylabel("Average Rating")
+    ax1.set_ylim(0, 5)
+
+    # Total Reviews (Right axis)
+    ax2 = ax1.twinx()
+    ax2.bar(
+        summary_df.index,
+        summary_df["Total_Reviews"],
+        color="tab:orange",
+        width=0.4,
+        alpha=0.7,
+        label="Total Reviews"
+    )
+    ax2.set_ylabel("Total Reviews")
+
+    ax1.set_title(
+        "Average Rating vs Total Reviews\nTop 10 App Categories by Installs"
+    )
+    ax1.set_xlabel("App Category")
+    ax1.set_xticklabels(summary_df.index, rotation=45, ha="right")
+
+    # Legends
+    ax1.legend(loc="upper left")
+    ax2.legend(loc="upper right")
+
     plt.tight_layout()
-
     st.pyplot(fig)
+
     return fig
