@@ -11,10 +11,10 @@ def is_time_allowed(start_hour, end_hour):
     return start_hour <= current_hour < end_hour
 
 
-def task1_grouped_bar_chart():
+def task1_grouped_bar_chart(test_mode=False):
 
     # ⏰ Time restriction
-    if not is_time_allowed(15, 17):
+    if not test_mode and not is_time_allowed(15, 17):
         return None
 
     df = pd.read_csv("data/cleaned_apps.csv")
