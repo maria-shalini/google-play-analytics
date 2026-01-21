@@ -19,7 +19,7 @@ def task1_grouped_bar_chart(test_mode=False):
     df = pd.read_csv("data/cleaned_apps.csv")
     df["Last Updated"] = pd.to_datetime(df["Last Updated"], errors="coerce")
 
-    # 🎛 INTERACTIVE FILTERS (Sidebar)
+    # 🎛 Interactive Filters
     st.sidebar.header("Task 1 Filters")
 
     min_rating = st.sidebar.slider(
@@ -37,7 +37,6 @@ def task1_grouped_bar_chart(test_mode=False):
         value=10
     )
 
-    # Base filtering
     filtered_df = df[
         (df["Rating"] >= min_rating) &
         (df["Size_MB"] <= max_size) &
@@ -57,13 +56,13 @@ def task1_grouped_bar_chart(test_mode=False):
         .index
     )
 
-    category_selection = st.sidebar.multiselect(
+    selected_categories = st.sidebar.multiselect(
         "Select App Categories",
         options=top_categories,
         default=list(top_categories)
     )
 
-    final_df = filtered_df[filtered_df["Category"].isin(category_selection)]
+    final_df = filtered_df[filtered_df["Category"].isin(selected_categories)]
 
     if final_df.empty:
         st.warning("Please select at least one category.")
@@ -74,10 +73,13 @@ def task1_grouped_bar_chart(test_mode=False):
         Total_Reviews=("Reviews", "sum")
     )
 
-    # 📊 Plot
+    # ============================
+    # 📊 FIXED PLOTTING SECTION
+    # ============================
+
     fig, ax1 = plt.subplots(figsize=(12, 6))
 
-    # Average Rating (Left axis)
+    # 🔵 Average Rating (Left Axis)
     ax1.bar(
         summary_df.index,
         summary_df["Average_Rating"],
@@ -88,7 +90,7 @@ def task1_grouped_bar_chart(test_mode=False):
     ax1.set_ylabel("Average Rating")
     ax1.set_ylim(0, 5)
 
-    # Total Reviews (Right axis)
+    # 🟠 Total Reviews (Right Axis)
     ax2 = ax1.twinx()
     ax2.bar(
         summary_df.index,
